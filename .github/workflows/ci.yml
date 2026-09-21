@@ -3,11 +3,9 @@ name: Customer Service CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,9 +17,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'maven'
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package
 
       - name: Run tests
         run: mvn test
+
+      - name: Build Docker image
+        run: docker build -t customer-service .
+
+      - name: Deploy to Railway
+        run: |
+          curl -sSL https://railway.app/cli | bash
+          railway up --service customer-service
