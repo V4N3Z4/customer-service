@@ -1,0 +1,27 @@
+# Customer Service
+
+Customer-service är en microservice som hanterar all kunddata i systemet.
+
+## Funktioner
+- Registrera kund
+- Hämta kund
+- Uppdatera kund
+- Ta bort kund (endast om kunden saknar aktiva bokningar)
+
+## Kommunikation med booking-service
+Customer-service pratar med booking-service via REST.
+När en kund ska tas bort frågar customer-service booking-service om kunden har aktiva bokningar.
+
+## Databas
+Customer-service använder en egen MySQL-databas.
+
+## Starta tjänsten
+### Lokalt
+mvn spring-boot:run
+
+### Docker
+docker build -t customer-service .
+docker run -p 8080:8080 customer-service
+
+### Docker Compose (hela systemet)
+docker compose up
