@@ -24,6 +24,4 @@ jobs:
       - name: Build and Test with Maven
         run: mvn -B package
 
-      - name: Build Docker image
-        run: docker build -t customer-service .
 
